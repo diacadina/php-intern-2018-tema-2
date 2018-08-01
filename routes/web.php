@@ -11,6 +11,27 @@
 |
 */
 
+use App\Employee;
+use App\Company;
+
 Route::get('/', function () {
-    return view('welcome');
+    $companies = Company::all();
+    return view('index', compact('companies'));
+});
+
+
+Route::get('employees/create', 'EmployeeController@create');
+Route::get('employees/delete/{employee}/{company}', 'EmployeeController@destroy')->name("destroyEmployee");
+Route::get('employees/{companyid}', 'CompanyController@listEmployees')->name("EmployeesList");
+
+Route::get('employees/{company}/{employee}/edit', 'EmployeeController@edit')->name("employeeEdit");
+
+
+Route::post('employees', 'EmployeeController@store');
+Route::post('employees/update/{employee}/{company}', 'EmployeeController@update')->name("updateEmployee");
+
+
+Route::get('employees', function () {
+    $employees = Employee::all();
+    return view('employee', compact('employees'));
 });
